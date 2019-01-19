@@ -2,17 +2,10 @@
   <v-app>
     <v-toolbar app>
       <v-toolbar-title class="headline text-uppercase">
-        <span>Vuetify</span>
-        <span class="font-weight-light">MATERIAL DESIGN</span>
+        <router-link :to="{ name: 'home'}">Blog</router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn
-        flat
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-      >
-        <span class="mr-2">Latest Release</span>
-      </v-btn>
+      <router-link :to="{ name: 'admin'}">Admin</router-link>
     </v-toolbar>
 
     <v-content>
@@ -23,7 +16,7 @@
 
 <script>
 import { firebase } from './providers/firebase'
-import { mapMutations } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
 export default {
   name: 'App',
 
@@ -33,12 +26,13 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['getPosts']),
     ...mapMutations(['setUser']),
   },
   mounted() {
+    this.getPosts()
     firebase.auth().onAuthStateChanged((user) => {
-      this.setUser(user);
-      //this.listenUserOrders(user.uid);
+      this.setUser(user)
     });
   }
 }

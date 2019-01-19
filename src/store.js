@@ -39,18 +39,17 @@ export default new Vuex.Store({
     post: store => {
       return store.post;
     },
+    posts: store => {
+      return store.posts;
+    },
     user: store => {
       return store.user;
     }
   },
   actions: {
-    getPost: (context, id) => {
-      // eslint-disable-next-line
-      console.log('getting post of id '+ id)
-    },
-    getPosts: ({ commit }) => {
+    getPosts: ({ commit, state }) => {
       postsCollection
-        .orderBy('createdAt')
+        .orderBy('createdAt', 'desc')
         .onSnapshot((snapshot) => {
           commit('resetPosts');
           snapshot.forEach(doc => {
@@ -58,30 +57,34 @@ export default new Vuex.Store({
             post.id = doc.id;
             post.metadata = doc.data();
             commit('addPost', post);
+
+            // update current post
+            if(state.post.id === post.id) {
+              commit('setPost', post);
+            }
           });
         })
 
     },
     retrievePost: ({ state, commit }, id) => {
-      let post = state.posts.findIndex(x => x.id === id);
-      if(!post) {
-        post = {}
-        /*postsCollection
-          .doc(post.id).*/
-      }
-      commit('setPost', {
-        id: id,
-        metadata: {
-          createdAt: new Date()
+      let post = state.posts.find(x => x.id === id);
+
+      if(post) {
+        commit('setPost', Object.assign({}, post))
+      } else {
+        commit('setPost', {
+          id: id,
+          metadata: {
+            createdAt: new Date()
           }
         })
+      }
+
     },
     updatePost: ({ state }) => {
       let post = state.post
       post.metadata.updatedAt = new Date()
       post.metadata.updatedBy = state.user.uid
-      // eslint-disable-next-line
-      console.log(state.post)
       postsCollection
         .doc(post.id)
         .set(post.metadata)

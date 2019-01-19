@@ -2,10 +2,10 @@
   <v-container>
     <v-layout row wrap align-center>
       <article>
-        <h1>{{ post.title }}</h1>
-        <p class="post-page-meta">{{ post.date }}</p>
+        <h1>{{ post.metadata.name }}</h1>
+        <p class="post-page-meta">{{ post.metadata.createdAt }}</p>
         <div>
-          {{ post.content }}
+          {{ post.metadata.description }}
         </div>
       </article>
     </v-layout>
@@ -20,7 +20,7 @@
       ...mapGetters(['post'])
     },
     created() {
-      this.$store.dispatch('getPost', this.$route.params.id)
+      this.$store.dispatch('retrievePost', this.$route.params.id)
     }
   }
 </script>
