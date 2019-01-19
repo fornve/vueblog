@@ -22,7 +22,8 @@
 </template>
 
 <script>
-
+import { firebase } from './providers/firebase'
+import { mapMutations } from 'vuex'
 export default {
   name: 'App',
 
@@ -30,6 +31,15 @@ export default {
     return {
       //
     }
+  },
+  methods: {
+    ...mapMutations(['setUser']),
+  },
+  mounted() {
+    firebase.auth().onAuthStateChanged((user) => {
+      this.setUser(user);
+      //this.listenUserOrders(user.uid);
+    });
   }
 }
 </script>
