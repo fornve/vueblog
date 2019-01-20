@@ -14,7 +14,7 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
+  import { mapActions, mapGetters } from 'vuex'
   export default {
     name: "index",
     computed: {
@@ -25,6 +25,12 @@
         let readMore = text.indexOf('<!--more-->')
         return text.substring(0, readMore > 0 ? readMore : text.length)
       }
+    },
+    methods: {
+      ...mapActions(['getPosts'])
+    },
+    mounted() {
+      this.getPosts()
     }
   }
 </script>

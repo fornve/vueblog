@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 Vue.use(Vuex)
-import { postsCollection } from './providers/firebase'
+import { firebase, postsCollection } from './providers/firebase'
 import Admin from './components/admin/store'
 export default new Vuex.Store({
   modules: {
@@ -54,6 +54,8 @@ export default new Vuex.Store({
           snapshot.forEach(doc => {
             let post = {}
             post.id = doc.id;
+            post.loading = false
+            post.exists = doc.exists
             post.metadata = doc.data();
             commit('addPost', post);
 
@@ -73,12 +75,38 @@ export default new Vuex.Store({
       } else {
         commit('setPost', {
           id: id,
+          loading: true,
           metadata: {
             createdAt: new Date()
           }
         })
+
+        postsCollection.doc(id).get().then(data => {
+          if(!data.exists || !data.data().published) {
+            commit('setPost', {
+              id: id,
+              loading: false,
+              exists: false,
+              metadata: {
+                createdAt: new Date()
+              }
+            })
+          } else {
+            commit('setPost', {
+              id: id,
+              loading: false,
+              exists: true,
+              metadata:  data.data()
+            })
+          }
+        })
       }
 
+    },
+    retrieveUser({ commit }) {
+      firebase.auth().onAuthStateChanged((user) => {
+        commit('setUser', user)
+      });
     }
   }
 })

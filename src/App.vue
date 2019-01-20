@@ -15,7 +15,6 @@
 </template>
 
 <script>
-import { firebase } from './providers/firebase'
 import { mapActions, mapMutations } from 'vuex'
 export default {
   name: 'App',
@@ -26,14 +25,11 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getPosts']),
+    ...mapActions(['retrieveUser']),
     ...mapMutations(['setUser']),
   },
-  mounted() {
-    this.getPosts()
-    firebase.auth().onAuthStateChanged((user) => {
-      this.setUser(user)
-    });
+  created() {
+    this.retrieveUser();
   }
 }
 </script>
