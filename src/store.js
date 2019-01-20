@@ -3,7 +3,11 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 import { postsCollection } from './providers/firebase'
+import Admin from './components/admin/store'
 export default new Vuex.Store({
+  modules: {
+    admin: Admin
+  },
   state: {
     user: false,
     post: {},
@@ -25,18 +29,6 @@ export default new Vuex.Store({
     setUser: (store, value) => {
       store.user = value;
     },
-    updatePostId: (store, value) => {
-      store.post.id = value;
-    },
-    updatePostName: (store, value) => {
-      store.post.metadata.name = value;
-    },
-    updatePostDescription: (store, value) => {
-      store.post.metadata.description = value;
-    },
-    updatePostPublished: (store, value) => {
-      store.post.metadata.published = value;
-    },
   },
   getters: {
     post: store => {
@@ -56,6 +48,7 @@ export default new Vuex.Store({
     getPosts: ({ commit, state }) => {
       postsCollection
         .orderBy('createdAt', 'desc')
+        .where('published', '==', true)
         .onSnapshot((snapshot) => {
           commit('resetPosts');
           snapshot.forEach(doc => {
@@ -64,7 +57,7 @@ export default new Vuex.Store({
             post.metadata = doc.data();
             commit('addPost', post);
 
-            // update current post
+            // update current posts
             if(state.post.id === post.id) {
               commit('setPost', post);
             }
@@ -86,14 +79,6 @@ export default new Vuex.Store({
         })
       }
 
-    },
-    updatePost: ({ state }) => {
-      let post = state.post
-      post.metadata.updatedAt = new Date()
-      post.metadata.updatedBy = state.user.uid
-      postsCollection
-        .doc(post.id)
-        .set(post.metadata)
     }
   }
 })

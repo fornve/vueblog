@@ -20,11 +20,13 @@
 </template>
 
 <script>
-  import { mapActions, mapGetters } from 'vuex'
+  import { mapActions, mapState } from 'vuex'
    export default {
     name: "posts",
     computed: {
-      ...mapGetters(['posts'])
+      ...mapState({
+        posts: state => state.admin.posts.posts
+      })
     },
     data() {
       return {
@@ -49,10 +51,10 @@
       }
     },
     methods: {
-      ...mapActions(['getPosts'])
+      ...mapActions(['admin/posts/getPosts'])
     },
     mounted() {
-      this.getPosts()
+      this['admin/posts/getPosts']()
     }
   }
 </script>
