@@ -10,8 +10,9 @@
         <td>
           <router-link :to="{ name: 'admin.post.edit', params: { id: post.item.id }}">{{ post.item.metadata.name }}</router-link>
         </td>
-        <td>{{ post.item.metadata.createdAt }}</td>
+        <td>{{ post.item.metadata.createdAt | ToDate }}</td>
         <td>{{ post.item.metadata.createdBy }}</td>
+        <td>{{ post.item.metadata.published | BooleanToText }}</td>
       </template>
 
     </v-data-table>
@@ -39,6 +40,10 @@
           {
             text: 'Created By',
             value: 'createdBy'
+          },
+          {
+            text: 'Published',
+            value: 'published'
           },
         ]
       }

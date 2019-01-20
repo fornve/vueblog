@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-for="post in posts" :key="post.id">
+    <div v-for="post in publishedPosts" :key="post.id">
       <div>
         <router-link :to="{ name: 'post', params: { id: post.id }}">
           <h2>{{ post.metadata.name }}</h2>
@@ -18,11 +18,12 @@
   export default {
     name: "index",
     computed: {
-      ...mapGetters(['posts'])
+      ...mapGetters(['publishedPosts'])
     },
     filters: {
       ApplyReadMore: (text) => {
-        return text.substring(0, text.indexOf('<!--more-->'))
+        let readMore = text.indexOf('<!--more-->')
+        return text.substring(0, readMore > 0 ? readMore : text.length)
       }
     }
   }

@@ -34,6 +34,9 @@ export default new Vuex.Store({
     updatePostDescription: (store, value) => {
       store.post.metadata.description = value;
     },
+    updatePostPublished: (store, value) => {
+      store.post.metadata.published = value;
+    },
   },
   getters: {
     post: store => {
@@ -41,6 +44,9 @@ export default new Vuex.Store({
     },
     posts: store => {
       return store.posts;
+    },
+    publishedPosts: store => {
+      return store.posts.filter(x => x.metadata.published);
     },
     user: store => {
       return store.user;

@@ -3,7 +3,7 @@
     <v-layout row wrap align-center>
       <article>
         <h1>{{ post.metadata.name }}</h1>
-        <p class="post-page-meta">{{ post.metadata.createdAt }}</p>
+        <p class="post-page-meta">{{ post.metadata.createdAt | ToDate }}</p>
         <div>
           {{ post.metadata.description | RemoveReadMore }}
         </div>

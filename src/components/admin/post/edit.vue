@@ -33,6 +33,13 @@
             xs12
             md6
         >
+          <v-checkbox
+              v-model="published"
+              label="Published"
+              data-vv-name="checkbox"
+              type="checkbox"
+          ></v-checkbox>
+
           <v-btn color="success" v-on:click="update()">Update</v-btn>
         </v-flex>
       </v-layout>
@@ -49,21 +56,30 @@
     computed: {
       ...mapGetters(['post', 'user']),
       name: {
-        set(name) {
-          this.$store.commit('updatePostName', name)
+        set(value) {
+          this.$store.commit('updatePostName', value)
         },
         get() {
           return this.post.metadata.name;
         }
       },
       description: {
-        set(description) {
-          this.$store.commit('updatePostDescription', description)
+        set(value) {
+          this.$store.commit('updatePostDescription', value)
         },
         get() {
           return this.post.metadata.description;
         }
-      }
+      },
+      published: {
+        set(value) {
+          this.$store.commit('updatePostPublished', value)
+        },
+        get() {
+          return this.post.metadata.published;
+        }
+      },
+
     },
     methods: {
       ...mapActions(['retrievePost', 'updatePost']),
