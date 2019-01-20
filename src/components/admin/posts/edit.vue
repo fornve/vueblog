@@ -50,14 +50,17 @@
 </template>
 
 <script>
-  import { mapActions, mapGetters } from 'vuex'
+  import { mapActions, mapGetters, mapState } from 'vuex'
   export default {
     name: "New",
     computed: {
-      ...mapGetters(['post', 'user']),
+      ...mapState({
+        post: state => state.admin.posts.post
+      }),
+      ...mapGetters(['user']),
       name: {
         set(value) {
-          this.$store.commit('updatePostName', value)
+          this.$store.commit('admin/posts/updatePostName', value)
         },
         get() {
           return this.post.metadata.name;
@@ -65,7 +68,7 @@
       },
       description: {
         set(value) {
-          this.$store.commit('updatePostDescription', value)
+          this.$store.commit('admin/posts/updatePostDescription', value)
         },
         get() {
           return this.post.metadata.description;
@@ -73,7 +76,7 @@
       },
       published: {
         set(value) {
-          this.$store.commit('updatePostPublished', value)
+          this.$store.commit('admin/posts/updatePostPublished', value)
         },
         get() {
           return this.post.metadata.published;
@@ -82,13 +85,13 @@
 
     },
     methods: {
-      ...mapActions(['retrievePost', 'updatePost']),
+      ...mapActions(['admin/posts/retrievePost', 'admin/posts/updatePost']),
       update() {
-        this.updatePost()
+        this['admin/posts/updatePost'](this.user.uid)
       }
     },
     mounted() {
-      this.retrievePost(this.$route.params.id)
+      this['admin/posts/retrievePost'](this.$route.params.id)
     }
   }
 </script>

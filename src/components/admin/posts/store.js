@@ -59,14 +59,28 @@ export default {
           });
         })
     },
-    updatePost: ({ state }) => {
+    retrievePost: ({ state, commit }, id) => {
+      let post = state.posts.find(x => x.id === id);
+
+      if (post) {
+        commit('setPost', Object.assign({}, post))
+      } else {
+        commit('setPost', {
+          id: id,
+          loading: true,
+          metadata: {
+            createdAt: new Date()
+          }
+        })
+      }
+    },
+    updatePost: ({ state }, userId ) => {
       let post = state.post
       post.metadata.updatedAt = new Date()
-      post.metadata.updatedBy = state.user.uid
+      post.metadata.updatedBy = userId
       postsCollection
         .doc(post.id)
         .set(post.metadata)
     }
-  },
-  getters: {  }
+  }
 }
