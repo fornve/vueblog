@@ -35,7 +35,11 @@ const routes = [
         name: 'admin.post.edit',
         component: () => import(/* webpackChunkName: "admin.posts.edit" */ '../components/admin/posts/edit.vue')
       },
-
+      {
+        path: '/admin/media',
+        name: 'admin.media',
+        component: () => import(/* webpackChunkName: "admin.media" */ '../components/admin/media/index.vue')
+      },
     ]
   }
 ]

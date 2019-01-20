@@ -7,6 +7,7 @@ firebase.initializeApp(config)
 const db = firebase.firestore()
 const auth = firebase.auth()
 const currentUser = auth.currentUser
+const mediaCollection = db.collection('media')
 const postsCollection = db.collection('posts')
 
 // date issue fix according to firebase
@@ -21,5 +22,6 @@ export {
   auth,
   currentUser,
   firebase,
-  postsCollection
+  mediaCollection,
+  postsCollection,
 }

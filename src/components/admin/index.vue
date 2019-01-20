@@ -15,6 +15,12 @@
             <button>Add post</button>
           </router-link>
         </li>
+        <li>
+          <router-link :to="{ name: 'admin.media' }">
+            <button>Media</button>
+          </router-link>
+        </li>
+
       </ul>
 
       <router-view />
