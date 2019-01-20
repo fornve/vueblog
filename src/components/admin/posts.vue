@@ -1,16 +1,20 @@
 <template>
   <div>
     <h1>Posts</h1>
-    <table>
-      <tr v-for="post in posts" :key="post.id">
+    <v-data-table
+        :headers="headers"
+        :items="posts"
+        class="elevation-1"
+    >
+      <template slot="items" slot-scope="post">
         <td>
-          <router-link :to="{ name: 'admin.post.edit', params: { id: post.id }}">{{ post.metadata.name }}</router-link>
+          <router-link :to="{ name: 'admin.post.edit', params: { id: post.item.id }}">{{ post.item.metadata.name }}</router-link>
         </td>
-        <td>{{ post.metadata.createdAt }}</td>
-        <td>{{ post.metadata.createdBy }}</td>
-      </tr>
+        <td>{{ post.item.metadata.createdAt }}</td>
+        <td>{{ post.item.metadata.createdBy }}</td>
+      </template>
 
-    </table>
+    </v-data-table>
   </div>
 </template>
 
@@ -20,6 +24,24 @@
     name: "posts",
     computed: {
       ...mapGetters(['posts'])
+    },
+    data() {
+      return {
+        headers: [
+          {
+            text: 'Name',
+            value: 'name'
+          },
+          {
+            text: 'Created At',
+            value: 'createdAt'
+          },
+          {
+            text: 'Created By',
+            value: 'createdBy'
+          },
+        ]
+      }
     },
     methods: {
       ...mapActions(['getPosts'])

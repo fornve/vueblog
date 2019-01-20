@@ -1,13 +1,44 @@
 <template>
-  <form action="#" v-on:submit.prevent>
-    <label>
-      <input v-model="name" placeholde="Name" />
-    </label>
-    <label>
-      <textarea v-model="description" placeholder="Description" />
-    </label>
-    <button v-on:click="update()">Update</button>
-  </form>
+  <div>
+    <div v-if="!post.metadata">Post is loading</div>
+    <v-container grid-list-xl v-if="post.metadata">
+      <v-layout
+          wrap
+          justify-space-between
+      >
+        <v-flex
+            xs12
+            md4
+        >
+          <v-form ref="form">
+            <v-text-field
+                v-model="name"
+                label="Post name"
+            ></v-text-field>
+          </v-form>
+        </v-flex>
+
+        <v-flex
+            xs12
+            md6
+        >
+          <v-textarea
+              v-model="description"
+              label="Description"
+              auto-grow
+          ></v-textarea>
+        </v-flex>
+
+        <v-flex
+            xs12
+            md6
+        >
+          <v-btn color="success" v-on:click="update()">Update</v-btn>
+        </v-flex>
+      </v-layout>
+    </v-container>
+
+  </div>
 
 </template>
 
