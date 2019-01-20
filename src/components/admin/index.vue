@@ -4,12 +4,18 @@
       <Login />
     </div>
     <div v-if="user">
-      <router-link :to="{ name: 'admin.post.edit', params: { id: uuid() }}">
-        <button>Add post</button>
-      </router-link>
-      <router-link :to="{ name: 'admin.posts' }">
-        <button>Add post</button>
-      </router-link>
+      <ul>
+        <li>
+          <router-link :to="{ name: 'admin.posts' }">
+            <button>Posts</button>
+          </router-link>
+        </li>
+        <li>
+          <router-link :to="{ name: 'admin.post.edit', params: { id: uuid() }}">
+            <button>Add post</button>
+          </router-link>
+        </li>
+      </ul>
 
       <router-view />
     </div>

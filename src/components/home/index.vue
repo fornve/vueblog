@@ -4,7 +4,7 @@
       <div>
         <router-link :to="{ name: 'post', params: { id: post.id }}">
           <h2>{{ post.metadata.name }}</h2>
-          <div>{{ post.metadata.description }}</div>
+          <div>{{ post.metadata.description | ApplyReadMore }}</div>
         </router-link>
       </div>
       <hr />
@@ -19,6 +19,11 @@
     name: "index",
     computed: {
       ...mapGetters(['posts'])
+    },
+    filters: {
+      ApplyReadMore: (text) => {
+        return text.substring(0, text.indexOf('<!--more-->'))
+      }
     }
   }
 </script>

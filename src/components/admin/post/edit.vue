@@ -22,7 +22,7 @@
           this.$store.commit('updatePostName', name)
         },
         get() {
-          return this.post.name;
+          return this.post.metadata.name;
         }
       },
       description: {
@@ -30,7 +30,7 @@
           this.$store.commit('updatePostDescription', description)
         },
         get() {
-          return this.post.description;
+          return this.post.metadata.description;
         }
       }
     },

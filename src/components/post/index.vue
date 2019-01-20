@@ -5,7 +5,7 @@
         <h1>{{ post.metadata.name }}</h1>
         <p class="post-page-meta">{{ post.metadata.createdAt }}</p>
         <div>
-          {{ post.metadata.description }}
+          {{ post.metadata.description | RemoveReadMore }}
         </div>
       </article>
     </v-layout>
