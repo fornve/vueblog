@@ -1,9 +1,9 @@
 <template>
-  <div>
-    <div v-if="!user">
+  <v-container fluid>
+    <v-layout v-if="!user">
       <Login />
-    </div>
-    <div v-if="user">
+    </v-layout>
+    <v-layout v-if="user">
       <ul>
         <li>
           <router-link :to="{ name: 'admin.posts' }">
@@ -20,12 +20,13 @@
             <button>Media</button>
           </router-link>
         </li>
-
       </ul>
 
+    </v-layout>
+    <v-layout>
       <router-view />
-    </div>
-  </div>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>

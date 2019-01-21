@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-flex>
     <h1>Media</h1>
     <Upload />
     <v-data-table
@@ -9,17 +9,18 @@
     >
       <template slot="items" slot-scope="media">
         <td>
-          {{ media.item.metadata.filename }}
-          <br />
-          {{ media.id }}
+          <img :src="media.item.metadata.downloadUrl" style="width: 40px" />
+        </td>
+        <td>
+          {{ media.item.id }}
         </td>
         <td>{{ media.item.metadata.createdAt | ToDate }}</td>
         <td>{{ media.item.metadata.createdBy }}</td>
-        <td>{{ media.item.metadata.published | BooleanToText }}</td>
+        <td>{{ media.item.metadata.size | BytesToMB }} MB</td>
       </template>
 
     </v-data-table>
-  </div>
+  </v-flex>
 </template>
 
 <script>
@@ -30,12 +31,16 @@
     components: { Upload },
     computed: {
       ...mapState({
-      medias: state => state.admin.media.medias
+        medias: state => state.admin.media.medias
       })
     },
     data() {
       return {
         headers: [
+          {
+            text: '',
+            value: 'img'
+          },
           {
             text: 'Filename',
             value: 'filename'
@@ -49,10 +54,15 @@
             value: 'createdBy'
           },
           {
-            text: 'Published',
-            value: 'published'
+            text: 'Size',
+            value: 'size'
           },
         ]
+      }
+    },
+    filters: {
+      BytesToMB: (value) => {
+        return Math.round(1000 * value / (1024 *1024)) / 1000;
       }
     },
     methods: {
