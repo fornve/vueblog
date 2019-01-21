@@ -33,7 +33,10 @@ export default {
     },*/
   },
   actions: {
-    getMedias: ({ commit, state }) => {
+    createMediaRecord({}, media) {
+      mediaCollection.doc(media.id).set(media.metadata);
+    },
+    getMedias: ({ commit }) => {
       mediaCollection
         .orderBy('createdAt', 'desc')
         .onSnapshot((snapshot) => {
@@ -45,10 +48,6 @@ export default {
             commit('addMedia', media);
           });
         })
-    },
-    createMediaRecord({ commit, state }, media) {
-      console.log(media)
-      mediaCollection.doc(media.id).set(media.metadata);
     }
   }
 }

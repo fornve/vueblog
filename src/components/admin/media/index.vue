@@ -23,14 +23,14 @@
 </template>
 
 <script>
-   import Upload from './upload'
-   import { mapActions, mapState } from 'vuex'
-   export default {
-     name: 'admin-media-upload',
+  import Upload from './upload'
+  import { mapActions, mapState } from 'vuex'
+  export default {
+    name: 'admin-media-upload',
     components: { Upload },
     computed: {
       ...mapState({
-        medias: state => state.admin.media.medias
+      medias: state => state.admin.media.medias
       })
     },
     data() {
