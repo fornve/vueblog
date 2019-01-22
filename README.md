@@ -20,6 +20,11 @@ npm run build
 npm run lint
 ```
 
+### Lints and fixes files
+```
+npm run test:unit
+```
+
 ### Deploy to firebase
 ```
 firebase deploy --only hosting

@@ -10,13 +10,6 @@ const currentUser = auth.currentUser
 const mediaCollection = db.collection('media')
 const postsCollection = db.collection('posts')
 
-// date issue fix according to firebase
-const settings = {
-  timestampsInSnapshots: true
-}
-db.settings(settings)
-
-
 export {
   db,
   auth,

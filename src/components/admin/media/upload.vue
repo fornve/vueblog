@@ -16,7 +16,9 @@
         <v-layout row>
           <v-flex xs12 sm6 offset-sm3>
             <img :src="uploading.url" height="150">
-            <div>{{ uploading.progress }}</div>
+            <div>
+              <v-progress-circular :value="uploading.progress"></v-progress-circular>
+            </div>
             <div>{{ uploading.bytesTotal }}</div>
           </v-flex>
         </v-layout>
@@ -46,32 +48,33 @@
       ...mapActions(['admin/media/createMediaRecord']),
       onFilePicked(event) {
         const file = event.target.files[0];
+        let uploading = this.uploading
 
         if(!file) {
           return;
         }
         let id = uuid()
-        this.uploading = { id: id }
+        uploading = { id: id, progress: 0 }
         let filename = file.name
         if(filename.lastIndexOf('.') <= 0) {
           return alert('File invalid')
         }
         const fileReader = new FileReader()
         fileReader.addEventListener('load', () => {
-          this.uploading.url = fileReader.result
+          uploading.url = fileReader.result
 
           let ref = 'uploads/' + id + filename.slice(filename.lastIndexOf('.'))
           let uploadTask = firebase.storage().ref(ref).put(file)
           uploadTask.on('state_changed', (snapshot) => {
-            this.uploading.state = snapshot.state
-            this.uploading.progress = snapshot.bytesTransferred / snapshot.totalBytes
-            this.uploading.bytesTransferred = snapshot.bytesTransferred
-            this.uploading.bytesTotal = snapshot.totalBytes
+            uploading.state = snapshot.state
+            uploading.progress = Math.round( 100 * snapshot.bytesTransferred / snapshot.totalBytes )
+            uploading.bytesTransferred = snapshot.bytesTransferred
+            uploading.bytesTotal = snapshot.totalBytes
           })
 
           uploadTask.then(fileData => {
             firebase.storage().ref(ref).getDownloadURL().then((downloadUrl) => {
-              this.uploading.state = 'finished'
+              uploading.state = 'finished'
               this['admin/media/createMediaRecord']({ id: id, metadata: {
                   size: fileData.totalBytes,
                   createdAt: new Date(),
