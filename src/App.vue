@@ -5,6 +5,16 @@
         <router-link :to="{ name: 'home'}">Blog</router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
+      <v-avatar
+        v-if="user"
+        slot="activator"
+        size="36px"
+      >
+        <img
+          src="user.imageURL"
+          alt="Avatar"
+        >
+      </v-avatar>
       <router-link :to="{ name: 'admin'}">Admin</router-link>
     </v-toolbar>
 
@@ -15,14 +25,11 @@
 </template>
 
 <script>
-import { mapActions, mapMutations } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 export default {
   name: 'App',
-
-  data () {
-    return {
-      //
-    }
+  computed: {
+    ...mapGetters(['user'])
   },
   methods: {
     ...mapActions(['retrieveUser']),

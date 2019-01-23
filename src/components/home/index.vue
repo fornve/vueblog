@@ -1,16 +1,18 @@
 <template>
-  <div>
-    <div v-for="post in publishedPosts" :key="post.id">
-      <div>
-        <router-link :to="{ name: 'post', params: { id: post.id }}">
-          <h2>{{ post.metadata.name }}</h2>
-          <div>{{ post.metadata.description | ApplyReadMore }}</div>
-        </router-link>
-      </div>
-      <hr />
-    </div>
+  <v-container>
+    <v-layout row wrap align-center>
+      <v-flex xs12 v-for="post in publishedPosts" :key="post.id">
+        <article>
+          <router-link :to="{ name: 'post', params: { id: post.id }}">
+            <h2>{{ post.metadata.name }}</h2>
+            <div>{{ post.metadata.description | ApplyReadMore }}</div>
+          </router-link>
+        </article>
+        <hr />
+      </v-flex>
 
-  </div>
+      </v-layout>
+  </v-container>
 </template>
 
 <script>

@@ -1,9 +1,11 @@
 <template>
-  <div>
-    <button v-if="!user" v-on:click="login()">Login</button>
-    <button v-if="user" v-on:click="logout()">Logout</button>
-    <img :src="user.photoURL" v-if="user" width="30" />
-  </div>
+  <v-container>
+    <v-layout row wrap align-center>
+      <button v-if="!user" v-on:click="login()">Login</button>
+      <button v-if="user" v-on:click="logout()">Logout</button>
+      <img :src="user.photoURL" v-if="user" width="30" />
+    </v-layout>
+  </v-container>
 </template>
 
 <script>

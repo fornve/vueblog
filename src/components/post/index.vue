@@ -4,9 +4,7 @@
       <article v-if="validPost()">
         <h1>{{ post.metadata.name }}</h1>
         <p class="post-page-meta">{{ post.metadata.createdAt | ToDate }}</p>
-        <div>
-          {{ post.metadata.description | RemoveReadMore }}
-        </div>
+        <div v-html="getFormattedPostDescription()"></div>
       </article>
       <article v-if="post.loading">
         <h1>Loading...</h1>
@@ -30,6 +28,9 @@
       this.$store.dispatch('retrievePost', this.$route.params.id)
     },
     methods: {
+      getFormattedPostDescription() {
+        return this.$options.filters.RemoveReadMore(this.post.metadata.description)
+      },
       validPost() {
         return this.post.exists;
       }

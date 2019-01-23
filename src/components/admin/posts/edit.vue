@@ -1,51 +1,44 @@
 <template>
-  <div>
-    <div v-if="!post.metadata">Post is loading</div>
-    <v-container grid-list-xl v-if="post.metadata">
-      <v-layout
-          wrap
-          justify-space-between
-      >
-        <v-flex
-            xs12
-            md4
+  <v-container>
+    <v-layout row wrap align-center>
+      <div v-if="!post.metadata">Post is loading</div>
+      <v-flex grid-list-xl v-if="post.metadata">
+        <v-layout
+            wrap
+            justify-space-between
         >
-          <v-form ref="form">
-            <v-text-field
-                v-model="name"
-                label="Post name"
-            ></v-text-field>
-          </v-form>
-        </v-flex>
+          <v-flex xs12>
+            <v-form ref="form">
+              <v-text-field
+                  v-model="name"
+                  label="Post name"
+              ></v-text-field>
+            </v-form>
+          </v-flex>
 
-        <v-flex
-            xs12
-            md6
-        >
-          <v-textarea
-              v-model="description"
-              label="Description"
-              auto-grow
-          ></v-textarea>
-        </v-flex>
+          <v-flex xs12>
+            <v-textarea
+                v-model="description"
+                label="Description"
+                auto-grow
+            ></v-textarea>
+          </v-flex>
 
-        <v-flex
-            xs12
-            md6
-        >
-          <v-checkbox
-              v-model="published"
-              label="Published"
-              data-vv-name="checkbox"
-              type="checkbox"
-          ></v-checkbox>
+          <v-flex xs12>
+            <v-checkbox
+                v-model="published"
+                label="Published"
+                data-vv-name="checkbox"
+                type="checkbox"
+            ></v-checkbox>
 
-          <v-btn color="success" v-on:click="update()">Update</v-btn>
-        </v-flex>
-      </v-layout>
-    </v-container>
+            <v-btn color="success" v-on:click="update()">Update</v-btn>
+          </v-flex>
+        </v-layout>
+      </v-flex>
 
-  </div>
+    </v-layout>
+  </v-container>
 
 </template>
 
