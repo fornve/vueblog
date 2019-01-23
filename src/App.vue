@@ -29,7 +29,7 @@ export default {
     ...mapMutations(['setUser']),
   },
   created() {
-    this.retrieveUser();
+    this.retrieveUser()
   }
 }
 </script>
