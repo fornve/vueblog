@@ -35,6 +35,11 @@ export default [
         name: 'admin.media',
         component: () => import(/* webpackChunkName: "admin.media" */ '../components/admin/media/index.vue')
       },
+      {
+        path: '/admin/media/:id',
+        name: 'admin.media.edit',
+        component: () => import(/* webpackChunkName: "admin.media.edit" */ '../components/admin/media/edit.vue')
+      },
     ]
   }
 ]

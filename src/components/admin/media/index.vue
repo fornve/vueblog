@@ -9,7 +9,9 @@
     >
       <template slot="items" slot-scope="media">
         <td>
-          <img :src="media.item.metadata.downloadUrl" style="width: 40px" />
+          <router-link :to="{ name: 'admin.media.edit', params: { id: media.item.id }}">
+            <img :src="media.item.metadata.downloadUrl" style="width: 40px" />
+          </router-link>
         </td>
         <td>
           {{ media.item.id }}
@@ -17,7 +19,6 @@
         <td>
           <div v-if="media.item.metadata.mlVision">
             <ul
-
                 v-for="item in media.item.metadata.mlVision.labelAnnotations"
                 :key="item.description">
               <li>{{ item.description }} - {{ item.score }}</li>

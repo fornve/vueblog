@@ -13,6 +13,9 @@ export default {
     resetCurrentMedia: (store) => {
       store.media = {}
     },
+    setMedia: (store, value) => {
+      store.media = value;
+    },
     resetMedias: (store) => {
       store.medias = []
     },
@@ -48,6 +51,13 @@ export default {
             commit('addMedia', media);
           });
         })
-    }
+    },
+    retrieveMedia: ({ state, commit }, id) => {
+      let media = state.medias.find(x => x.id === id);
+
+      if (media) {
+        commit('setMedia', Object.assign({}, media))
+      }
+    },
   }
 }

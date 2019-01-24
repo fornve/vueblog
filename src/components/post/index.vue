@@ -36,7 +36,7 @@
           text = marked(text) +
             ' <!-- marked! -->'
         }
-console.log(text)
+
         return text;
       },
       validPost() {
