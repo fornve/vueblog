@@ -36,6 +36,9 @@ export default {
     updatePostDescription: (store, value) => {
       store.post.metadata.description = value;
     },
+    updatePostMarkupType: (store, value) => {
+      store.post.metadata.markupType = value;
+    },
     updatePostPublished: (store, value) => {
       store.post.metadata.published = value;
     },

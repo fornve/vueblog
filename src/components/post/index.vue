@@ -19,6 +19,7 @@
 
 <script>
   import { mapGetters } from 'vuex'
+  import marked from 'marked'
   export default {
     name: "post",
     computed: {
@@ -29,7 +30,14 @@
     },
     methods: {
       getFormattedPostDescription() {
-        return this.$options.filters.RemoveReadMore(this.post.metadata.description)
+        let text = this.$options.filters.RemoveReadMore(this.post.metadata.description)
+
+        if(this.post.metadata.markupType == 'Markup') {
+          text = marked(text) +
+            ' <!-- marked! -->'
+        }
+console.log(text)
+        return text;
       },
       validPost() {
         return this.post.exists;

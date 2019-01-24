@@ -25,13 +25,23 @@
           </v-flex>
 
           <v-flex xs12>
+            <v-select
+                v-model="markupType"
+                :items="['HTML', 'Markup']"
+                label="Markup Type"
+            ></v-select>
+          </v-flex>
+
+          <v-flex xs12>
             <v-checkbox
                 v-model="published"
                 label="Published"
                 data-vv-name="checkbox"
                 type="checkbox"
             ></v-checkbox>
+          </v-flex>
 
+          <v-flex xs12>
             <v-btn color="success" v-on:click="update()">Update</v-btn>
           </v-flex>
         </v-layout>
@@ -73,6 +83,14 @@
         },
         get() {
           return this.post.metadata.published;
+        }
+      },
+      markupType: {
+        set(value) {
+          this.$store.commit('admin/posts/updatePostMarkupType', value)
+        },
+        get() {
+          return this.post.metadata.markupType || 'HTML';
         }
       },
 

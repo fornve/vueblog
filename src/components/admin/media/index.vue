@@ -14,6 +14,17 @@
         <td>
           {{ media.item.id }}
         </td>
+        <td>
+          <div v-if="media.item.metadata.mlVision">
+            <ul
+
+                v-for="item in media.item.metadata.mlVision.labelAnnotations"
+                :key="item.description">
+              <li>{{ item.description }} - {{ item.score }}</li>
+            </ul>
+          </div>
+
+        </td>
         <td>{{ media.item.metadata.createdAt | ToDate }}</td>
         <td>{{ media.item.metadata.createdBy }}</td>
         <td>{{ media.item.metadata.size | BytesToMB }} MB</td>
@@ -44,6 +55,10 @@
           {
             text: 'Filename',
             value: 'filename'
+          },
+          {
+            text: 'Labels',
+            value: 'labels'
           },
           {
             text: 'Created At',
