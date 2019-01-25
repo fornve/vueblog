@@ -50,6 +50,15 @@
       </v-flex>
     </v-layout>
 
+    <v-layout v-if="media.metadata.thumbnails">
+      <div v-for="(thumb, key) in media.metadata.thumbnails" :key="key">
+        <hr />
+        <div>{{ key }}</div>
+        <div>{{ thumb.object }}</div>
+        <div><img :src="thumb.url" :alt="thumb.url" /></div>
+      </div>
+    </v-layout>
+
   </v-container>
 </template>
 

@@ -3,7 +3,7 @@ const os = require('os')
 const path = require('path')
 const uuid = require('uuid')
 
-module.exports = function(id, filename, thumbnailSize, resizeString, bucket) {
+module.exports = function(id, filename, thumbnailSize, resizeString, storage) {
   return new Promise((resolve, reject) => {
     let newFileName = `${resizeString}-${id}`
     let newFileTemp = path.join(os.tmpdir(), newFileName);
@@ -12,7 +12,7 @@ module.exports = function(id, filename, thumbnailSize, resizeString, bucket) {
     console.log('Started generation & upload')
     console.log(filename, newFileName, newFileTemp);
 
-    bucket.file(filename).download({
+    storage.bucket().file(filename).download({
       destination: tempFilePath
     }).then(() => {
 
@@ -28,22 +28,23 @@ module.exports = function(id, filename, thumbnailSize, resizeString, bucket) {
 
           let destination = `uploads/${resizeString}/${id}`+ filename.slice(filename.lastIndexOf('.'))
 
-          bucket.upload(newFileTemp, {
+          storage.bucket().upload(newFileTemp, {
             destination: destination,
             public: true,
             metadata: {
               contentType: 'image/jpeg',
-              firebaseStorageDownloadTokens: uuid()
+              cacheControl: 'public, max-age=31536000',
+              gzip: true,
+              predefinedAcl: 'publicRead',
             }
-          }).then((file) => {
-
-            bucket.file(destination).getSignedUrl({
-              action: 'read',
-              expires: '03-09-2491'
-            }).then(url => {
-              console.log(url)
-              resolve({ object: destination, url: url });
-            })
+          }).then((file, z) => {
+            //storage.ref(destination).getDownloadURL().then(url => {
+           // let metadata = file[0].getMetadata()
+            //console.log(metadata)
+              console.log(file[0])
+            console.log(file[1])
+              resolve({ object: destination, url: file[1].mediaLink });
+            //})
           }).catch(e => {
             console.log('error uploading file')
             console.log(e)

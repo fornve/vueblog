@@ -36,10 +36,10 @@ export default {
     },*/
   },
   actions: {
-    createMediaRecord({}, media) {
+    createMediaRecord({ }, media) {
       mediaCollection.doc(media.id).set(media.metadata);
     },
-    getMedias: ({ commit }) => {
+    getMedias: ({ state, commit }) => {
       mediaCollection
         .orderBy('createdAt', 'desc')
         .onSnapshot((snapshot) => {
@@ -49,8 +49,15 @@ export default {
             media.id = doc.id;
             media.metadata = doc.data();
             commit('addMedia', media);
+
+            // update current media
+            if(state.media.id === media.id) {
+              commit('setMedia', media);
+            }
           });
+
         })
+
     },
     retrieveMedia: ({ state, commit }, id) => {
       let media = state.medias.find(x => x.id === id);

@@ -3,7 +3,7 @@ const admin = require('firebase-admin')
 const generateThumbnail = require('./generate')
 const app = admin.initializeApp(functions.config().firebase)
 let db = admin.firestore()
-let bucket = admin.storage().bucket()
+let storage = admin.storage()
 db.settings({timestampsInSnapshots: true})
 
 const generateResizeSting = function(thumbnail) {
@@ -35,7 +35,7 @@ module.exports = functions.https.onCall((data) => {
           metadata.thumbnails = {};
         }
 
-        generateThumbnail(doc.id, metadata.fullPath, data.data, resizeString, bucket)
+        generateThumbnail(doc.id, metadata.fullPath, data.data, resizeString, storage)
           .then(result => {
             metadata.thumbnails[resizeString] = result;
             db.collection('/media').doc(data.id).set(metadata).then(() => {
