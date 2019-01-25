@@ -1,3 +1,3 @@
 export default (value) => {
-  return value ? 'True' : 'False'
+  return Math.round(1000 * value / (1024 *1024)) / 1000;
 }

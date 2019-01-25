@@ -57,6 +57,10 @@ export default {
 
       if (media) {
         commit('setMedia', Object.assign({}, media))
+      } else {
+        mediaCollection.doc(id).get().then(doc => {
+          commit('setMedia', Object.assign({}, { id: id, metadata: doc.data()}))
+        })
       }
     },
   }
