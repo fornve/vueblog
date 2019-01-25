@@ -2,11 +2,13 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 Vue.use(Vuex)
-import { firebase, postsCollection } from './providers/firebase'
-import Admin from './components/admin/store'
+import { firebase, postsCollection } from '../providers/firebase'
+import Admin from '../components/admin/store'
+import Messages from './messages'
 export default new Vuex.Store({
   modules: {
-    admin: Admin
+    admin: Admin,
+    messages: Messages,
   },
   state: {
     user: false,
