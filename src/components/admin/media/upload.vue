@@ -75,6 +75,7 @@
           uploadTask.then(fileData => {
             firebase.storage().ref(ref).getDownloadURL().then((downloadUrl) => {
               uploading.state = 'finished'
+
               this['admin/media/createMediaRecord']({ id: id, metadata: {
                   size: fileData.totalBytes,
                   createdAt: new Date(),
@@ -83,7 +84,7 @@
                   fullPath: fileData.metadata.fullPath,
                   contentType: fileData.metadata.contentType,
                   bucket: fileData.metadata.bucket,
-                  originalFilename: filename
+                  originalFilename: filename,
                 }})
 
             });

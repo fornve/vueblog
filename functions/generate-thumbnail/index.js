@@ -14,9 +14,6 @@ const generateResizeSting = function(thumbnail) {
   return result.join('x')
 }
 
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
 module.exports = functions.https.onCall((data) => {
   console.log(data)
   let resizeString = generateResizeSting(data.data)
@@ -38,12 +35,16 @@ module.exports = functions.https.onCall((data) => {
           metadata.thumbnails = {};
         }
 
-        generateThumbnail(doc.id, metadata.downloadUrl, data.data, resizeString, bucket)
+        generateThumbnail(doc.id, metadata.fullPath, data.data, resizeString, bucket)
           .then(result => {
             metadata.thumbnails[resizeString] = result;
-            doc.set(metadata)
-            return resolve(metadata.thumbnails[resizeString]);
-          })
+            db.collection('/media').doc(data.id).set(metadata).then(() => {
+              return resolve(metadata.thumbnails[resizeString])
+            })
+          }).catch(e => {
+            console.log(e)
+            reject('Error generating thumbnail')
+        })
 
       }).catch(e => {
         reject(e)
