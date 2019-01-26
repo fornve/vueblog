@@ -2,7 +2,7 @@
   <v-container v-if="media && media.metadata">
     <v-layout>
       <v-flex xs6>
-        <img :src="media.metadata.downloadUrl" style="width: 40px" />
+        <img :src="getThumb200x200()" />
       </v-flex>
       <v-flex xs6>
         <v-data-table
@@ -52,9 +52,6 @@
 
     <v-layout v-if="media.metadata.thumbnails">
       <div v-for="(thumb, key) in media.metadata.thumbnails" :key="key">
-        <hr />
-        <div>{{ key }}</div>
-        <div>{{ thumb.object }}</div>
         <div><img :src="thumb.url" :alt="thumb.url" /></div>
       </div>
     </v-layout>
@@ -129,13 +126,6 @@
           })
 
       },
-      test() {
-        this.thumbnail = {
-          width: 100,
-          height: 200
-        }
-        this.generate()
-      },
       getImageDetails() {
         let table = [
           {
@@ -164,10 +154,24 @@
           tags.push(item.description)
         })
         return tags.join(', ');
+      },
+      getThumb200x200() {
+        if(this.media.metadata.thumbnails && this.media.metadata.thumbnails['200x200']) {
+          return this.media.metadata.thumbnails['200x200'].url
+        }
       }
     },
     mounted() {
       this['admin/media/retrieveMedia'](this.$route.params.id)
+
+      if(!this.media.metadata) {
+        return false
+      }
+
+      if(!this.media.metadata.thumbnails || !this.media.metadata.thumbnails['200x200']) {
+        firebase.functions()
+          .httpsCallable('generateThumbnail')({id: this.media.id, data: {width: 200, height: 200}})
+      }
     }
   }
 </script>
