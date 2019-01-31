@@ -25,7 +25,10 @@
     filters: {
       ApplyReadMore: (text) => {
         let readMore = text.indexOf('<!--more-->')
-        return text.substring(0, readMore > 0 ? readMore : text.length)
+        if(readMore < 0) {
+          readMore = text.indexOf('[!more]')
+        }
+        return text.substring(0, readMore > 0 ? readMore : text.length).replace(/<(?:.|\n)*?>/gm, '')
       }
     },
     methods: {
